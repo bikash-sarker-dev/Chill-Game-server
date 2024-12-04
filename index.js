@@ -50,6 +50,17 @@ app.post("/reviews", async (req, res) => {
   const result = await reviewsCollection.insertOne(reviewCatch);
   res.send(result);
 });
+
+// get Response
+app.get("/reviews/highest-rated", async (req, res) => {
+  const result = await reviewsCollection
+    .find()
+    .sort({ rating: -1 })
+    .limit(6)
+    .toArray();
+  res.send(result);
+});
+
 app.listen(port, () => {
   console.log(`The chill game server running:${port}`);
 });
