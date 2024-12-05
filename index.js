@@ -42,6 +42,7 @@ app.get("/", (req, res) => {
 
 // mongodb collection
 const reviewsCollection = client.db("ChillGamer").collection("reviews");
+const usersCollection = client.db("ChillGamer").collection("users");
 
 // post request
 app.post("/reviews", async (req, res) => {
@@ -58,6 +59,22 @@ app.get("/reviews/highest-rated", async (req, res) => {
     .sort({ rating: -1 })
     .limit(6)
     .toArray();
+  res.send(result);
+});
+
+app.get("/reviews/latest", async (req, res) => {
+  const result = await reviewsCollection
+    .find()
+    .sort({ $natural: -1 })
+    .limit(3)
+    .toArray();
+  res.send(result);
+});
+
+// user relative working
+app.post("/users", async (req, res) => {
+  const userCatch = req.body;
+  const result = await usersCollection.insertOne(userCatch);
   res.send(result);
 });
 
