@@ -89,6 +89,13 @@ app.get("/reviews", async (req, res) => {
   res.send(result);
 });
 
+app.get("/reviews/:email", async (req, res) => {
+  const emailKeep = req.params.email;
+  const query = { email: emailKeep };
+  const result = await reviewsCollection.find(query).toArray();
+  res.send(result);
+});
+
 // user relative working
 app.post("/users", async (req, res) => {
   const userCatch = req.body;
@@ -98,7 +105,6 @@ app.post("/users", async (req, res) => {
 
 app.get("/users/:email", async (req, res) => {
   const emailCatch = req.params.email;
-  console.log(emailCatch);
   const query = { email: emailCatch };
   const result = await usersCollection.find(query).toArray();
   res.send(result);
