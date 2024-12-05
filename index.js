@@ -78,6 +78,28 @@ app.post("/users", async (req, res) => {
   res.send(result);
 });
 
+app.get("/users/:email", async (req, res) => {
+  const emailCatch = req.params.email;
+  console.log(emailCatch);
+  const query = { email: emailCatch };
+  const result = await usersCollection.find(query).toArray();
+  res.send(result);
+});
+
+app.patch("/users/:email", async (req, res) => {
+  const emailCatch = req.params.email;
+  const userUpCatch = req.body;
+  const query = { email: emailCatch };
+
+  const upData = {
+    $set: {
+      lastSignInTime: userUpCatch.lastSignInTime,
+    },
+  };
+  const result = await usersCollection.updateOne(query, upData);
+  res.send(result);
+});
+
 app.listen(port, () => {
   console.log(`The chill game server running:${port}`);
 });
