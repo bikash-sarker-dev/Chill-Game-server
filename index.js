@@ -42,12 +42,19 @@ app.get("/", (req, res) => {
 // mongodb collection
 const reviewsCollection = client.db("ChillGamer").collection("reviews");
 const usersCollection = client.db("ChillGamer").collection("users");
+const watchListCollection = client.db("ChillGamer").collection("watchlist");
 
 // post request
 app.post("/reviews", async (req, res) => {
   const reviewCatch = req.body;
-  console.log(reviewCatch);
+
   const result = await reviewsCollection.insertOne(reviewCatch);
+  res.send(result);
+});
+
+app.post("/watchlist", async (req, res) => {
+  const watchData = req.body;
+  const result = await watchListCollection.insertOne(watchData);
   res.send(result);
 });
 
