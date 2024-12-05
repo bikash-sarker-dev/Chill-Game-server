@@ -1,13 +1,12 @@
 require("dotenv").config();
 const express = require("express");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const core = require("cors");
 const app = express();
 const port = process.env.SERVER_PORT || 8000;
 
 app.use(core());
 app.use(express.json());
-
-const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.yvlp9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -68,6 +67,13 @@ app.get("/reviews/latest", async (req, res) => {
     .sort({ $natural: -1 })
     .limit(3)
     .toArray();
+  res.send(result);
+});
+
+app.get("/details/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await reviewsCollection.find(query).toArray();
   res.send(result);
 });
 
