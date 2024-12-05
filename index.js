@@ -84,6 +84,11 @@ app.get("/details/:id", async (req, res) => {
   res.send(result);
 });
 
+app.get("/reviews", async (req, res) => {
+  const result = await reviewsCollection.find().toArray();
+  res.send(result);
+});
+
 // user relative working
 app.post("/users", async (req, res) => {
   const userCatch = req.body;
