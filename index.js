@@ -52,9 +52,17 @@ app.post("/reviews", async (req, res) => {
   res.send(result);
 });
 
+// watchList
 app.post("/watchlist", async (req, res) => {
   const watchData = req.body;
   const result = await watchListCollection.insertOne(watchData);
+  res.send(result);
+});
+
+app.get("/watchlist/:adminEmail", async (req, res) => {
+  const myEmail = req.params.adminEmail;
+  const query = { adminEmail: myEmail };
+  const result = await watchListCollection.find(query).toArray();
   res.send(result);
 });
 
