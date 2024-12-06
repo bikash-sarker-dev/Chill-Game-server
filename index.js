@@ -84,6 +84,35 @@ app.get("/details/:id", async (req, res) => {
   res.send(result);
 });
 
+// update data
+app.get("/update/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await reviewsCollection.find(query).toArray();
+  res.send(result);
+});
+
+app.put("/update/:id", async (req, res) => {
+  const id = req.params.id;
+  const upCatchData = req.body;
+  const query = { _id: new ObjectId(id) };
+  const option = { $upsert: true };
+  const upDateReview = {
+    $set: {
+      title: upCatchData.title,
+      rating: upCatchData.rating,
+      publishYear: upCatchData.publishYear,
+      genres: upCatchData.genres,
+      thumbnail: upCatchData.thumbnail,
+      username: upCatchData.username,
+      email: upCatchData.email,
+      description: upCatchData.description,
+    },
+  };
+  const result = await reviewsCollection.updateOne(query, upDateReview, option);
+  res.send(result);
+});
+
 app.get("/reviews", async (req, res) => {
   const result = await reviewsCollection.find().toArray();
   res.send(result);
