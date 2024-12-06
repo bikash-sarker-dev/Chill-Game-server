@@ -84,6 +84,14 @@ app.get("/details/:id", async (req, res) => {
   res.send(result);
 });
 
+// delete
+app.delete("/my-review/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await reviewsCollection.deleteOne(query);
+  res.send(result);
+});
+
 // update data
 app.get("/update/:id", async (req, res) => {
   const id = req.params.id;
