@@ -22,12 +22,12 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    // await client.db("admin").command({ ping: 1 });
+    // console.log(
+    //   "Pinged your deployment. You successfully connected to MongoDB!"
+    // );
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
@@ -36,7 +36,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send(`The chill game server open`);
+  res.send(`The chill game server opening.`);
 });
 
 // mongodb collection
@@ -47,7 +47,6 @@ const watchListCollection = client.db("ChillGamer").collection("watchlist");
 // post request
 app.post("/reviews", async (req, res) => {
   const reviewCatch = req.body;
-
   const result = await reviewsCollection.insertOne(reviewCatch);
   res.send(result);
 });
